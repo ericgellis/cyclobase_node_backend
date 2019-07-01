@@ -35,9 +35,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a2698b78-9711-49f8-8e22-4d551e152034" object-ref="schemas/public/tables/cyclobase_users" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a2698b78-9711-49f8-8e22-4d551e152034" />
