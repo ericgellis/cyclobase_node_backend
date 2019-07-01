@@ -2,16 +2,14 @@ var express = require('express');
 var pg = require("pg");
 var router = express.Router();
 
-var tryAuthRequest = "SELECT * FROM cyclobase_users WHERE login = $1";
-var getAllUsersRequest = 'SELECT * FROM cyclobase_users';
-
+var tryAuthRequest = "SELECT password FROM cyclobase_users WHERE login = $1 AND activated = true;";
 
 var config = new pg.Client({
-  user: "trhrhtnafalhdk",
-  password: "b8b1e8c2bcb2277432c034acf6a306fe64be6dc6036782fff8344ed73374366c",
-  database: "daanph1b372kbm",
+  user: "sumssetnxptoyp",
+  password: "dae82949eb052ac466dbc3da5c4ac0978ccefb27033beb7dea6fa7de7371c1a4",
+  database: "dso577pvb7cki",
   port: 5432,
-  host: "ec2-54-247-72-30.eu-west-1.compute.amazonaws.com",
+  host: "ec2-46-137-91-216.eu-west-1.compute.amazonaws.com",
   ssl: true,
   max: 10, // max number of connection can be open to database
   idleTimeoutMillis: 30000,
@@ -20,44 +18,10 @@ var config = new pg.Client({
 var pool = new pg.Pool(config);
 
 
-/* GET Get All users. */
-router.get('/', function(req, res, next) {
-
-  const results = [];
-
-  /* Grab data from http request
-  const data = {text: req.body.text, complete: false};*/
-
-  pool.connect(function(err,client,done)  {
-
-    if(err){
-      console.log("not able to get connection "+ err);
-      res.status(400).send(err);
-    }
-
-    client.query(getAllUsersRequest ,function(err,result) {
-
-      done();
-
-      if(err){
-        console.log(err);
-        res.status(400).send(err);
-      }
-
-      res.status(200).send(result.rows);
-    });
-  });
-});
-
 /* authentificate user. */
 router.post('/auth', function(req, res, next) {
 
-  console.log(req.body.authPayload.login);
-
-  console.log(req.body.authPayload.password);
-
-  // Grab data from http request
-  const data = {login: req.body.authPayload.login, password: req.body.authPayload.password};
+  var payload = req.body;
 
   pool.connect(function(err,client,done)  {
 
@@ -67,25 +31,33 @@ router.post('/auth', function(req, res, next) {
     }
 
     client.query(tryAuthRequest ,
-          [data.login],
+          [payload.login],
           function(err,result) {
 
-      done();
 
-      if(err){
-        console.log(err);
-        res.status(400).send(err);
-      }
+          if(err){
+              console.log(err);
+              res.status(400).send(err);
+          }else{
 
-            console.log(result);
+            console.log(result.rows.length +" users found")
 
-      if(result.rows[0].password == data.password){
-        res.status(200).send('login success');
-      }else{
-        res.status(401).send('Wrong password');
-      }
 
-    });
+            if(result.rows.length == 0){
+              res.status(402).send('Unknow user');
+            }else{
+
+              if(result.rows[0].password == payload.password){
+                res.status(200).send('login success');
+              }else{
+                res.status(401).send('Wrong password');
+
+              }
+            }
+          }
+            done();
+
+          });
   });
 });
 

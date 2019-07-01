@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="a2698b78-9711-49f8-8e22-4d551e152034">
-        <schema name="public" object-types="function, index, view, sequence, constraint, dataset trigger, column, table" />
+        <schema name="public" object-types="view, dataset trigger, sequence, column, table, index, constraint, function" />
       </connection>
     </loaded-nodes>
   </component>
@@ -35,7 +35,9 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="a2698b78-9711-49f8-8e22-4d551e152034" object-ref="schemas/public/tables/cyclobase_users" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a2698b78-9711-49f8-8e22-4d551e152034" />
