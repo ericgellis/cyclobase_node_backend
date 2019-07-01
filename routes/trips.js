@@ -18,19 +18,17 @@ var insertEvents = 'INSERT into event ' +
 
 
 var config = new pg.Client({
-    user: "trhrhtnafalhdk",
-    password: "b8b1e8c2bcb2277432c034acf6a306fe64be6dc6036782fff8344ed73374366c",
-    database: "daanph1b372kbm",
+    user: "sumssetnxptoyp",
+    password: "dae82949eb052ac466dbc3da5c4ac0978ccefb27033beb7dea6fa7de7371c1a4",
+    database: "dso577pvb7cki",
     port: 5432,
-    host: "ec2-54-247-72-30.eu-west-1.compute.amazonaws.com",
+    host: "ec2-46-137-91-216.eu-west-1.compute.amazonaws.com",
     ssl: true,
     max: 10, // max number of connection can be open to database
     idleTimeoutMillis: 30000,
 });
 
 var pool = new pg.Pool(config);
-
-
 
 router.post('/', function(req, res, next) {
 
