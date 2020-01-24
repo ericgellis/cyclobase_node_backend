@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Get All users. */
 router.post('/wakeup', function(req, res, next) {
-
+    console.log('Wake up !!!');
     res.sendStatus(200);
 });
 

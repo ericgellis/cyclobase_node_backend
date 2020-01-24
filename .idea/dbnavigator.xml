@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="a2698b78-9711-49f8-8e22-4d551e152034">
-        <schema name="public" object-types="view, dataset trigger, sequence, column, table, index, constraint, function" />
+        <schema name="public" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -35,9 +35,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a2698b78-9711-49f8-8e22-4d551e152034" object-ref="schemas/public/tables/cyclobase_users" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a2698b78-9711-49f8-8e22-4d551e152034" />
@@ -75,7 +73,7 @@
           <description value="CycloBase Stagging" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
-          <database-version value="11.4" />
+          <database-version value="11.6" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />

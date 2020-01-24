@@ -1,0 +1,1 @@
+global.FOO = 5
