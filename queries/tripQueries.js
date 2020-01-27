@@ -8,7 +8,7 @@ const insertTrip = 'INSERT into trip ' +
     'RETURNING *';
 
 const insertRollingPoints = 'INSERT into rolling_point ' +
-    '(gps_lat, gps_long, point_time, trip_id) ' +
+    '(gps_lat, gps_long, point_time_rolling_point, trip_id) ' +
     'VALUES %L';
 
 const insertEvents = 'INSERT into event ' +
@@ -20,12 +20,13 @@ function makeRollingPointsRows(rollingPoints, tripId) {
     var values = [];
 
     for (var i = 0; i < rollingPoints.length; i++) {
-        values.push([
-            rollingPoints[i].gpsLat,
-            rollingPoints[i].gpsLong,
-            rollingPoints[i].timeOfRollingPoint,
-            tripId
-        ])
+
+        values.push(
+            [rollingPoints[i].gpsLat,
+                rollingPoints[i].gpsLong,
+                rollingPoints[i].timeOfRollingPoint,
+                tripId])
+
     }
 
     return values;
@@ -61,7 +62,12 @@ module.exports = {
 
         const result = await pool.query(
             insertTrip,
-            [payload.endGpsLat, payload.endGpsLong, payload.endTime, payload.startGpsLat, payload.startGpsLong, payload.startTime]);
+            [payload.endGpsLat, payload.endGpsLong, payload.endTime, payload.startGpsLat, payload.startGpsLong, payload.startTime])
+            .catch((error) => {
+                console.log(error);
+                response.status(400).send("Error while inserting new trip into Database");
+                throw error
+            });
 
         console.log("New trip have been successful insert with trip_id : " + result.rows[0].trip_id);
 
@@ -69,8 +75,10 @@ module.exports = {
 
         await pool.query(format(insertRollingPoints, makeRollingPointsRows(payload.rollingPoints, result.rows[0].trip_id)))
             .catch((error) => {
-                console.log(format(insertRollingPoints, [makeRollingPointsRows(payload.rollingPoints, result.rows[0].trip_id)]))
+                console.log(format(insertRollingPoints, makeRollingPointsRows(payload.rollingPoints, result.rows[0].trip_id)));
+                console.log(error);
                 response.status(400).send("Error while inserting RollingPoint into Database");
+                throw error
             })
             .then( (result) => {
                 console.log("Success inserting RollingPoints")
@@ -80,15 +88,17 @@ module.exports = {
 
         await pool.query(format(insertEvents, makeEventsRows(payload.events, result.rows[0].trip_id)))
             .catch((error) => {
-                console.log(format(insertEvents, [makeEventsRows(payload.events, result.rows[0].trip_id)]))
+                console.log(format(insertEvents, makeEventsRows(payload.events, result.rows[0].trip_id)));
+                console.log(error);
                 response.status(400).send("Error while inserting Events into Database");
+                throw error
             })
             .then( (result) => {
                 console.log("Success inserting Events")
             });
 
         console.log("All datas have beensuccessfully inserted into database");
-        response.status(200).send("Trip and datas have been successfully inserted into database");
+        return response.status(200).send("Trip and datas have been successfully inserted into database");
     }
 };
 
