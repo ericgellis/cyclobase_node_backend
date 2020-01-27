@@ -1,7 +1,7 @@
 CREATE TABLE public.cyclobase_users
 (
     user_id SERIAL,
-    userName character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    username character varying(255) COLLATE pg_catalog."default" NOT NULL,
     password character varying(255) COLLATE pg_catalog."default",
     activated boolean NOT NULL DEFAULT true,
     hash character varying(255) COLLATE pg_catalog."default",

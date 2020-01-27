@@ -33,21 +33,21 @@ module.exports = {
 
     getAllUsers: function (request, response) {
 
-        pool.query('SELECT * FROM cyclobase_users ORDER BY id ASC', (error, results) => {
+        pool.query('SELECT username, activated FROM cyclobase_users ORDER BY user_id ASC', (error, results) => {
             if (error) {
                 throw error;
             }
-            response.status(200).json(results.rows)
+            return response.status(200).json(results.rows)
         })
     },
     getUserById: function (request, response) {
         const id = parseInt(request.params.id);
 
-        pool.query('SELECT * FROM cyclobase_users WHERE id = $1', [id], (error, results) => {
+        pool.query('SELECT * FROM cyclobase_users WHERE user_id = $1', [id], (error, results) => {
             if (error) {
                 throw error
             }
-            response.status(200).json(results.rows)
+            return response.status(200).json(results.rows)
         })
     },
     createUser: async function createUser(request, response) {
@@ -57,12 +57,12 @@ module.exports = {
         console.log('Try to register a new user');
 
         if(payload.userName === null || payload.password === null){
-            response.status(400).send('userName or password is empty')
+            return response.status(400).send('userName or password is empty')
         }
 
         if (await hasUser(payload.userName)) {
             console.log('This username already exist.');
-            response.status(400).send('User with this identifier already exist')
+            return response.status(400).send('User with this identifier already exist')
         } else {
 
             console.log("Not any user register with this identifier, let's go");
@@ -79,11 +79,10 @@ module.exports = {
             pool.query('INSERT INTO cyclobase_users (userName, hash, salt) VALUES ($1, $2, $3)', [payload.userName, hash, salt], (error, results) => {
                 if (error) {
                     console.log('Fail to insert new user with identifiers ' + payload.userName + '  into database');
-                    response.status(400).send('Error while register user');
-                    throw error
+                    return response.status(400).send('Error while register user');
                 } else {
                     console.log('New user with identifiers ' + payload.userName + ' have been successfully inserted into database');
-                    response.status(200).send('User ' + payload.userName + ' added in database')
+                    return response.status(200).send('User ' + payload.userName + ' added in database')
                 }
             })
         }
@@ -91,13 +90,13 @@ module.exports = {
     deleteUser: function deleteUser(request, response) {
         const id = parseInt(request.params.id);
 
-        pool.query('DELETE FROM cyclobase_users WHERE id = $1',
+        pool.query('DELETE FROM cyclobase_users WHERE user_id = $1',
             [id],
             (error, results) => {
                 if (error) {
                     throw error
                 }
-                response.status(200).send(`User deleted with ID: ${id}`)
+                return response.status(200).send(`User deleted with ID: ${id}`)
             })
     },
     updateUser: function (request, response) {
@@ -111,7 +110,7 @@ module.exports = {
                 if (error) {
                     throw error
                 }
-                response.status(200).send(`User modified with ID: ${id}`)
+                return response.status(200).send(`User modified with ID: ${id}`)
             }
         )
     },
@@ -119,18 +118,23 @@ module.exports = {
 
         var payload = request.body;
 
-        console.log('User ' + payload.login + ' try an authentification ...');
+        console.log('User ' + payload.userName + ' try an authentification ...');
 
-        pool.query('SELECT * FROM cyclobase_users WHERE login = $1 AND activated = true',
-            [payload.login],
+        pool.query('SELECT * FROM cyclobase_users WHERE userName = $1 AND activated = true',
+            [payload.userName],
             (error, result) => {
-                if (validPassword(result.rows[0].hash, result.rows[0].salt, payload.password)) {
-                    console.log('Login success');
-                    response.status(200).send('login success');
-                } else {
-                    console.log('Login failure');
-                    response.status(401).send('Wrong password');
+                if(result.rows.length === 1){
+                    console.log('User Found');
+                    if (validPassword(result.rows[0].hash, result.rows[0].salt, payload.password)) {
+                        console.log('Login success');
+                        return response.status(200).send('login success');
+                    }else{
+                        console.log('Wrong Password');
+                    }
+                }else{
+                    console.log('User not found');
                 }
+                return response.status(401).send('Wrong userName / password combination');
             })
     }
 };
