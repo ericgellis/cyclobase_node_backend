@@ -23,6 +23,6 @@ const stagingConfig = {
 };
 
 
-const pool = new DbConnection(stagingConfig);
+const pool = new DbConnection(prodConfig);
 
 module.exports = pool;
