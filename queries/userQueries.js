@@ -18,11 +18,11 @@ function validPassword(hash, salt, payloadPassword) {
     return hash === processedHash;
 }
 
-async function hasUser(login) {
+async function hasUser(userName) {
 
-    console.log('First, verify if an user with login ' + login + ' exist.');
+    console.log('First, verify if an user with login ' + userName + ' exist.');
 
-    const result = await pool.query('SELECT COUNT(*) AS usercount FROM cyclobase_users WHERE login = $1', [login])
+    const result = await pool.query('SELECT COUNT(*) AS usercount FROM cyclobase_users WHERE userName = $1', [userName])
 
     console.log(result.rows[0].usercount + ' result found');
 
@@ -56,7 +56,11 @@ module.exports = {
 
         console.log('Try to register a new user');
 
-        if (await hasUser(payload.login)) {
+        if(payload.userName === null || payload.password === null){
+            response.status(400).send('userName or password is empty')
+        }
+
+        if (await hasUser(payload.userName)) {
             console.log('This username already exist.');
             response.status(400).send('User with this identifier already exist')
         } else {
@@ -65,21 +69,21 @@ module.exports = {
 
             // Creating a unique salt for a particular user
             var salt = crypto.randomBytes(16).toString('hex');
-            var hash = hashPassword(salt, payload.password);
-
             console.log("salt : " + salt);
+
+            var hash = hashPassword(salt, payload.password);
             console.log("hash : " + hash);
 
             console.log('Inserting user in database ...');
 
-            pool.query('INSERT INTO cyclobase_users (login, hash, salt) VALUES ($1, $2, $3)', [payload.login, hash, salt], (error, results) => {
+            pool.query('INSERT INTO cyclobase_users (userName, hash, salt) VALUES ($1, $2, $3)', [payload.userName, hash, salt], (error, results) => {
                 if (error) {
-                    console.log('Fail to insert new user with identifiers ' + payload.login + '  into database');
+                    console.log('Fail to insert new user with identifiers ' + payload.userName + '  into database');
                     response.status(400).send('Error while register user');
                     throw error
                 } else {
-                    console.log('New user with identifiers ' + payload.login + ' have been successfully inserted into database');
-                    response.status(200).send('User ' + payload.login + ' added in database')
+                    console.log('New user with identifiers ' + payload.userName + ' have been successfully inserted into database');
+                    response.status(200).send('User ' + payload.userName + ' added in database')
                 }
             })
         }
