@@ -1,7 +1,7 @@
 CREATE TABLE public.rolling_point
 (
     rolling_point_id SERIAL,
-    point_time_rolling_point text COLLATE pg_catalog."default",
+    point_time text COLLATE pg_catalog."default",
     gps_lat double precision,
     gps_long double precision,
     trip_id integer,
