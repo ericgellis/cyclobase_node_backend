@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <title>Cyclobase</title>
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-
     <div class="ui main container" id="app">
-        <input type="text" v-model="username">
+        <input type="text" v-model="modelUsername"><br>
+        <input type="text" v-model="modelPassword"><br>
         <button @click="sendCredential">Envoyer</button>
     </div>
+    <script src="index.js"></script>
 
-    <script src="javascripts/index.js"></script>
 </body>
 </html>
