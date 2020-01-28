@@ -10,7 +10,7 @@ var app = new Vue({
     methods: {
         sendCredential : function () {
             axios
-                .post('http://localhost:3000/api/v1/technical/wakeup')
+                .post('/api/v1/technical/wakeup')
                 .then(response => (console.log(response)))
         }
     }
