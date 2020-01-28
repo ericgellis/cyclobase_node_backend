@@ -1,13 +1,19 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <title>Cyclobase</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
-
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
-</body>
 
+    <div class="ui main container" id="app">
+        <input type="text" v-model="username">
+        <button @click="sendCredential">Envoyer</button>
+    </div>
+
+    <script src="javascripts/index.js"></script>
+</body>
 </html>
