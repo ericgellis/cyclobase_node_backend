@@ -33,7 +33,7 @@ module.exports = {
 
     getAllUsers: function (request, response) {
 
-        pool.query('SELECT username, activated FROM cyclobase_users ORDER BY user_id ASC', (error, results) => {
+        pool.query('SELECT user_id, username, activated FROM cyclobase_users ORDER BY user_id ASC', (error, results) => {
             if (error) {
                 throw error;
             }
