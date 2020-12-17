@@ -23,11 +23,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="a2698b78-9711-49f8-8e22-4d551e152034">
-        <schema name="public" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="a2698b78-9711-49f8-8e22-4d551e152034">
@@ -83,7 +79,7 @@
           <database value="daanph1b372kbm" />
           <type value="USER_PASSWORD" />
           <user value="trhrhtnafalhdk" />
-          <deprecated-pwd value="YjhiMWU4YzJiY2IyMjc3NDMyYzAzNGFjZjZhMzA2ZmU2NGJlNmRjNjAzNjc4MmZmZjgzNDRlZDczMzc0MzY2Yw==" />
+          <deprecated-pwd value="" />
         </database>
         <properties>
           <auto-commit value="false" />
@@ -279,8 +275,6 @@
           <content-type name="HTML" enabled="true" />
           <content-type name="XHTML" enabled="true" />
           <content-type name="CSS" enabled="true" />
-          <content-type name="SQL" enabled="true" />
-          <content-type name="PL/SQL" enabled="true" />
           <content-type name="JavaScript" enabled="true" />
           <content-type name="JSP" enabled="true" />
           <content-type name="JSPx" enabled="true" />

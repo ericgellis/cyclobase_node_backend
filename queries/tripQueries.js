@@ -8,7 +8,7 @@ const insertTrip = 'INSERT into trip ' +
     'RETURNING *';
 
 const insertRollingPoints = 'INSERT into rolling_point ' +
-    '(gps_lat, gps_long, point_time, trip_id) ' +
+    '(gps_lat, gps_long, point_time_rolling_point, trip_id) ' +
     'VALUES %L';
 
 const insertEvents = 'INSERT into event ' +
